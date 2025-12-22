@@ -1,120 +1,156 @@
-import { Gorsel } from './Gorsel';
-import { useState } from 'react';
+// src/components/OyunEkrani.tsx
 
+import { useState } from 'react';
+import { Gorsel } from './Gorsel';
+
+// --- GENİŞLETİLMİŞ OYUN VERİSİ ---
 const OYUN_VERISI = [
+    // --- İNSAN KATEGORİSİ ---
     {
         id: 1,
-        url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+1",
-        isAi: false
+        zorluk: 'kolay',
+        kategori: 'insan',
+        gorseller: [
+            { id: 101, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Insan", isAi: false },
+            { id: 102, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Insan+(Bariz)", isAi: true },
+            { id: 103, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Insan+2", isAi: false }
+        ]
     },
     {
         id: 2,
-        url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Uretimi",
-        isAi: true
+        zorluk: 'zor',
+        kategori: 'insan',
+        gorseller: [
+            { id: 201, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Portre", isAi: false },
+            { id: 202, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Insan+(Kusursuz)", isAi: true },
+            { id: 203, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Portre+2", isAi: false }
+        ]
     },
+    // --- MANZARA KATEGORİSİ ---
     {
         id: 3,
-        url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+2",
-        isAi: false
+        zorluk: 'kolay',
+        kategori: 'manzara',
+        gorseller: [
+            { id: 301, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Doga", isAi: false },
+            { id: 302, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Manzara+(Hatalı)", isAi: true },
+            { id: 303, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Doga+2", isAi: false }
+        ]
+    },
+    {
+        id: 4,
+        zorluk: 'zor',
+        kategori: 'manzara',
+        gorseller: [
+            { id: 401, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Dag", isAi: false },
+            { id: 402, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Manzara+(Gercekci)", isAi: true },
+            { id: 403, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Deniz", isAi: false }
+        ]
+    },
+    // --- SANAT KATEGORİSİ ---
+    {
+        id: 5,
+        zorluk: 'kolay',
+        kategori: 'sanat',
+        gorseller: [
+            { id: 501, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Van+Gogh", isAi: false },
+            { id: 502, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Cizim+(Basit)", isAi: true },
+            { id: 503, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Picasso", isAi: false }
+        ]
+    },
+    {
+        id: 6,
+        zorluk: 'zor',
+        kategori: 'sanat',
+        gorseller: [
+            { id: 601, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Yagli+Boya", isAi: false },
+            { id: 602, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Sanat+(Detayli)", isAi: true },
+            { id: 603, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Heykel", isAi: false }
+        ]
     }
 ];
 
 interface OyunEkraniProps {
     onOyunBitti: (sonuc: 'kazandi' | 'kaybetti') => void;
+    secilenZorluk: string;   // Gerekli Prop
+    secilenKategori: string; // Gerekli Prop
 }
 
-export const OyunEkrani = ({ onOyunBitti }: OyunEkraniProps) => {
-    // Hangi görselin seçildiğini takip eden State
+export const OyunEkrani = ({ onOyunBitti, secilenZorluk, secilenKategori }: OyunEkraniProps) => {
     const [secilenId, setSecilenId] = useState<number | null>(null);
-
-    // YENİ STATE'LER
-    const [hakSayisi, setHakSayisi] = useState(1); // 1. hak ile başlar
+    const [hakSayisi, setHakSayisi] = useState(1);
     const [ipucu, setIpucu] = useState<string>("");
     const [elenenId, setElenenId] = useState<number | null>(null);
 
+    // Seçilen kriterlere göre doğru veri setini buluyoruz
+    // find metodu diziyi tarar ve zorluk/kategori eşleşen ilk öğeyi getirir.
+    const aktifVeriSeti = OYUN_VERISI.find(veri =>
+        veri.zorluk === secilenZorluk && veri.kategori === secilenKategori
+    ) || OYUN_VERISI[0]; // Eğer bir hata olur da bulunamazsa varsayılan olarak ilk seti kullan
 
+    const gorseller = aktifVeriSeti.gorseller;
 
-    // 1. ADIM: Sadece görseli seçili hale getirir (Henüz kontrol etmez)
     const gorselSec = (id: number) => {
         setSecilenId(id);
     };
 
-    // 2. ADIM: Butona basılınca cevabı kontrol eder
     const cevabiOnayla = () => {
-        // Eğer hiçbir şey seçilmediyse işlem yapma
         if (secilenId === null) return;
-
-        // Seçilen görselin verisini bul (isAi bilgisini almak için)
-        const secilenGorsel = OYUN_VERISI.find(g => g.id === secilenId);
-
-        // Güvenlik kontrolü (olur da görsel bulunamazsa)
+        const secilenGorsel = gorseller.find(g => g.id === secilenId);
         if (!secilenGorsel) return;
 
-        const isAi = secilenGorsel.isAi;
-
-        if (isAi) {
+        if (secilenGorsel.isAi) {
             onOyunBitti('kazandi');
-        }
-        // 2. Durum: YANLIŞ TAHMİN
-        else {
+        } else {
             if (hakSayisi === 1) {
-                // İlk hak yandı İpucu ver ve ikinci şansı tanı
                 setHakSayisi(2);
-                setElenenId(secilenId); // Bu görseli devre dışı bırak (sönükleştir)
-                setIpucu("Yanlış! İpucu: Görsellerdeki gölgelere ve detaylara daha dikkatli bak.");
-                setSecilenId(null); // Seçimi sıfırla ki yeni seçim yapabilsin
+                setElenenId(secilenId);
+                // Zorluk seviyesine göre ipucu metni değişebilir
+                const yeniIpucu = secilenZorluk === 'kolay'
+                    ? "Yanlış! İpucu: Çok bariz bir hata ara, renkler çok parlak olabilir."
+                    : "Yanlış! İpucu: AI genellikle elleri, gölgeleri veya arka plan yazılarını karıştırır.";
+                setIpucu(yeniIpucu);
+                setSecilenId(null);
             } else {
                 onOyunBitti('kaybetti');
-                }
             }
-        };
-
+        }
+    };
 
     return (
         <div className="oyun-ekrani">
+            {/* Oyunun hangi modda olduğunu gösteren bilgi paneli */}
+            <div className="oyun-bilgi-paneli">
+                <span>Mod: <strong>{secilenKategori.toUpperCase()}</strong></span>
+                <span>Zorluk: <strong>{secilenZorluk.toUpperCase()}</strong></span>
+            </div>
+
             <h2>{hakSayisi === 1 ? 'İlk Tahminini Yap!' : 'Son Şansın!'}</h2>
             <p>Hangi görsel yapay zeka tarafından üretilmiştir?</p>
 
-
-            {/*ipucu için*/}
-            {ipucu && (
-                <div className="ipucu-kutusu">
-                    ⚠️ {ipucu}
-                </div>
-            )}
+            {ipucu && <div className="ipucu-kutusu">⚠️ {ipucu}</div>}
 
             <div className="gorsel-alani">
-                {/* Burada 'map' fonksiyonu kullanıyoruz.
-            Yani 3 kere elle gorsel yazmak yerine, listeyi döngüye sokuyoruz.
-        */}
-                {OYUN_VERISI.map((gorsel) => (
+                {gorseller.map((gorsel) => (
                     <Gorsel
                         key={gorsel.id}
                         imageUrl={gorsel.url}
-                        isSelected={secilenId === gorsel.id} // Eğer tıklanan ID bu ise çerçeve yak
-                        isDisabled={elenenId === gorsel.id} // Elenen görsel sönük kalacak ve tıklanamayacak
+                        isSelected={secilenId === gorsel.id}
+                        isDisabled={elenenId === gorsel.id}
                         onClick={() => gorselSec(gorsel.id)}
                     />
                 ))}
             </div>
 
-            {/* Seçim yapıldıysa altta yazsın */}
-            {secilenId !== null && (
-                <div style={{ marginTop: '20px', color: '#333' }}>
-                    Seçilen Görsel ID: <strong>{secilenId}</strong>
-                </div>
-            )}
-
             <div className="buton-alani">
                 <button
                     className="onayla-btn"
                     onClick={cevabiOnayla}
-                    disabled={secilenId === null} // Hiçbir şey seçili değilse buton çalışmaz
+                    disabled={secilenId === null}
                 >
                     Seçimi Onayla
                 </button>
             </div>
-
         </div>
     );
 }

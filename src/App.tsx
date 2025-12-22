@@ -1,42 +1,52 @@
+// src/App.tsx
+
 import { useState } from 'react';
-import './App.css'
-import { BaslangicEkrani } from './components/BaslangicEkrani'
+import './App.css';
+import { BaslangicEkrani } from './components/BaslangicEkrani';
 import { OyunEkrani } from './components/OyunEkrani';
-import {SonucEkrani} from './components/SonucEkrani';
+import { SonucEkrani } from './components/SonucEkrani';
 
 type EkranTipi = 'baslangic' | 'oyun' | 'sonuc';
 
 function App() {
-    // Hangi ekrandayız bilgisini tutan state.
     const [aktifEkran, setAktifEkran] = useState<EkranTipi>('baslangic');
-    // Oyun sonucunu yazan state
     const [oyunSonucu, setOyunSonucu] = useState<'kazandi' | 'kaybetti'>('kaybetti');
 
-    // Oyunu başlat
+    // HAFTA 7-8: Oyun Modu State'leri
+    const [zorluk, setZorluk] = useState<string>('kolay');
+    const [kategori, setKategori] = useState<string>('insan');
+
     const oyunuBaslat = () => {
-        setAktifEkran('oyun'); // Aktif ekranı 'oyun' olarak değiştir
+        setAktifEkran('oyun');
     }
 
-    // Oyun bitince çalışacak fonksiyon OyunEkrani'ndan çağırdık
     const oyunuBitir = (sonuc: 'kazandi' | 'kaybetti') => {
         setOyunSonucu(sonuc);
-        setAktifEkran('sonuc'); // Sonuç ekranına geç
+        setAktifEkran('sonuc');
     };
 
-    // En başa dönme fonksiyonu
     const basaDon = () => {
         setAktifEkran('baslangic');
     };
 
-    // Hangi component'in gösterileceğine karar veren mantık
     return (
         <>
             {aktifEkran === 'baslangic' && (
-                <BaslangicEkrani onBaslaClick={oyunuBaslat} />
+                <BaslangicEkrani
+                    onBaslaClick={oyunuBaslat}
+                    setZorluk={setZorluk}
+                    setKategori={setKategori}
+                    secilenZorluk={zorluk}
+                    secilenKategori={kategori}
+                />
             )}
 
             {aktifEkran === 'oyun' && (
-                <OyunEkrani onOyunBitti={oyunuBitir} />
+                <OyunEkrani
+                    onOyunBitti={oyunuBitir}
+                    secilenZorluk={zorluk}   // Seçilen zorluğu gönder
+                    secilenKategori={kategori} // Seçilen kategoriyi gönder
+                />
             )}
 
             {aktifEkran === 'sonuc' && (
