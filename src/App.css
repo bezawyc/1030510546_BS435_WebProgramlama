@@ -1,110 +1,206 @@
+/* src/App.css*/
+
+/* DEĞİŞKENLER (Renkleri buradan yönetmek kolaydır)  */
+:root {
+    --primary-color: #3b82f6; /* Modern Mavi */
+    --primary-hover: #2563eb; /* Koyu Mavi */
+    --background-color: #f3f4f6; /* Açık Gri Arkaplan */
+    --card-bg: #ffffff;
+    --text-color: #1f2937; /* Koyu Gri Yazı */
+    --border-color: #e5e7eb;
+    --success-color: #10b981; /* Yeşil */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* GENEL AYARLAR  */
 body {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     padding-top: 4rem;
+    padding-bottom: 2rem;
+    min-height: 100vh;
+    margin: 0;
 }
 
+/* ANA KARTLAR (Başlangıç ve Oyun Ekranı) */
 .start-screen, .oyun-ekrani {
     width: 90%;
-    max-width: 800px;
-    padding: 2rem;
+    max-width: 900px;
+    padding: 2.5rem;
     text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #ffffff;
+    background-color: var(--card-bg);
+    border-radius: 16px; /* Daha yuvarlak köşeler */
+    box-shadow: var(--shadow-lg); /* Derinlik efekti */
+    transition: all 0.3s ease;
 }
 
-/* Görselleri yan yana dizen kapsayıcı (Flexbox) */
+h1, h2 {
+    color: #111827;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* OYUN ALANI (Görseller)  */
 .gorsel-alani {
     display: flex;
-    justify-content: center; /* Ortala */
-    gap: 20px; /* Görseller arası boşluk */
+    justify-content: center;
+    gap: 24px;
     margin-top: 2rem;
-    flex-wrap: wrap; /* Mobilde alt satıra geçsin */
+    flex-wrap: wrap;
 }
 
 .gorsel-kapsayici {
-    cursor: pointer; /* Tıklanabilir el işareti çıksın */
-    transition: transform 0.2s; /* Hafif animasyon */
-    border: 4px solid transparent; /* Çerçeve payı */
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 4px solid transparent;
     border-radius: 12px;
+    overflow: hidden; /* Resim köşelerden taşmasın */
+    box-shadow: var(--shadow-sm);
+    background: white;
 }
 
 .gorsel-kapsayici:hover {
-    transform: scale(1.05); /* Üzerine gelince biraz büyüsün */
-    /*border-color: #007bff; /* Üzerine gelince mavi çerçeve */
+    transform: translateY(-5px); /* Yukarı doğru hafif kalkma */
+    box-shadow: var(--shadow-md);
 }
 
-/* Resmin kendisi */
+/* Seçili Durum */
+.gorsel-kapsayici.secili {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); /* Mavi parlama halkası */
+    transform: scale(1.02);
+}
+
+/* Resim */
 .gorsel-resim {
     width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 8px;
+    max-width: 250px;
+    height: 250px; /* Kare olması için sabit yükseklik */
+    object-fit: cover; /* Resmi bozmadan kırp */
     display: block;
 }
 
-.gorsel-kapsayici.secili {
-    border-color: #2563eb; /* Mavi çerçeve */
-    box-shadow: 0 0 15px rgba(37, 99, 235, 0.5); /* Hafif mavi parlama */
-    transform: scale(1.05); /* Seçilince büyük kalsın */
-}
-
-/* ... ÖNCEKİ KODLARIN ALTINA EKLE ... */
-
-/* --- HAFTA 7-8: SEÇİM ALANI --- */
+/* SEÇİM ALANI (Dropdownlar) */
 .secim-alani {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
+    gap: 2rem;
+    margin: 2rem 0;
     flex-wrap: wrap;
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
 }
 
 .secim-kutusu {
     display: flex;
     flex-direction: column;
     text-align: left;
+    min-width: 150px;
 }
 
 .secim-kutusu label {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 5px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
 }
 
 .secim-kutusu select {
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
     font-size: 1rem;
     background-color: white;
     cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
-.basla-butonu {
-    background-color: #2563eb;
+.secim-kutusu select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* BUTONLAR */
+.basla-butonu, .onayla-btn {
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 12px 32px;
     font-size: 1.1rem;
-    font-weight: bold;
+    font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 1.5rem;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
 }
 
-/* --- OYUN BİLGİ PANELİ --- */
+.basla-butonu:hover, .onayla-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.onayla-btn {
+    background-color: var(--success-color); /* Onayla butonu yeşil olsun */
+}
+
+.onayla-btn:hover {
+    background-color: #059669;
+}
+
+.onayla-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* BİLGİ PANELİ */
 .oyun-bilgi-paneli {
     display: flex;
     justify-content: space-between;
-    background-color: #f8f9fa;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-size: 0.9rem;
-    color: #555;
-    border: 1px solid #eee;
+    background-color: #eff6ff; /* Çok açık mavi */
+    padding: 12px 24px;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    color: #1e40af;
+    border: 1px solid #dbeafe;
+    font-weight: 500;
+}
+
+/* İPUCU KUTUSU */
+.ipucu-kutusu {
+    background-color: #fef3c7; /* Sarı */
+    color: #92400e;
+    border: 1px solid #fcd34d;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Gorsel } from './Gorsel';
 
-// --- GENİŞLETİLMİŞ OYUN VERİSİ ---
 const OYUN_VERISI = [
     // --- İNSAN KATEGORİSİ ---
     {
@@ -11,9 +10,9 @@ const OYUN_VERISI = [
         zorluk: 'kolay',
         kategori: 'insan',
         gorseller: [
-            { id: 101, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Insan", isAi: false },
-            { id: 102, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Insan+(Bariz)", isAi: true },
-            { id: 103, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Insan+2", isAi: false }
+            { id: 101, url: "img/3333.jpg", isAi: false },
+            { id: 102, url: "img/1111.jpg", isAi: false },
+            { id: 103, url: "img/2222.jpg", isAi: true }
         ]
     },
     {
@@ -21,9 +20,9 @@ const OYUN_VERISI = [
         zorluk: 'zor',
         kategori: 'insan',
         gorseller: [
-            { id: 201, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Portre", isAi: false },
-            { id: 202, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Insan+(Kusursuz)", isAi: true },
-            { id: 203, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Portre+2", isAi: false }
+            { id: 201, url: "img/111.jpg", isAi: false },
+            { id: 202, url: "img/222.png", isAi: true },
+            { id: 203, url: "img/333.jpg", isAi: false }
         ]
     },
     // --- MANZARA KATEGORİSİ ---
@@ -32,9 +31,9 @@ const OYUN_VERISI = [
         zorluk: 'kolay',
         kategori: 'manzara',
         gorseller: [
-            { id: 301, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Doga", isAi: false },
-            { id: 302, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Manzara+(Hatalı)", isAi: true },
-            { id: 303, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Doga+2", isAi: false }
+            { id: 301, url: "img/id1.jpg", isAi: false },
+            { id: 302, url: "img/id2.jpg", isAi: true },
+            { id: 303, url: "img/id3.jpg", isAi: false }
         ]
     },
     {
@@ -42,30 +41,30 @@ const OYUN_VERISI = [
         zorluk: 'zor',
         kategori: 'manzara',
         gorseller: [
-            { id: 401, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Gercek+Dag", isAi: false },
-            { id: 402, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Manzara+(Gercekci)", isAi: true },
-            { id: 403, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Gercek+Deniz", isAi: false }
+            { id: 401, url: "img/id11.jpg", isAi: false },
+            { id: 402, url: "img/id22.png", isAi: true },
+            { id: 403, url: "img/id33.jpg", isAi: false }
         ]
     },
-    // --- SANAT KATEGORİSİ ---
+    // --- HAYVAN KATEGORİSİ ---
     {
         id: 5,
         zorluk: 'kolay',
-        kategori: 'sanat',
+        kategori: 'hayvan',
         gorseller: [
-            { id: 501, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Van+Gogh", isAi: false },
-            { id: 502, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Cizim+(Basit)", isAi: true },
-            { id: 503, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Picasso", isAi: false }
+            { id: 501, url: "img/1ü.jpg", isAi: false },
+            { id: 502, url: "img/2ü.jpg", isAi: true },
+            { id: 503, url: "img/3.jpg", isAi: false }
         ]
     },
     {
         id: 6,
         zorluk: 'zor',
-        kategori: 'sanat',
+        kategori: 'hayvan',
         gorseller: [
-            { id: 601, url: "https://placehold.co/300x300/FF5733/FFFFFF?text=Yagli+Boya", isAi: false },
-            { id: 602, url: "https://placehold.co/300x300/33FF57/FFFFFF?text=AI+Sanat+(Detayli)", isAi: true },
-            { id: 603, url: "https://placehold.co/300x300/3357FF/FFFFFF?text=Heykel", isAi: false }
+            { id: 601, url: "img/11.jpg", isAi: false },
+            { id: 602, url: "img/33.jpg", isAi: true },
+            { id: 603, url: "img/22.jpg", isAi: false }
         ]
     }
 ];

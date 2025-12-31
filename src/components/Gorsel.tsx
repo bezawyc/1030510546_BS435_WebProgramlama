@@ -1,3 +1,5 @@
+// src/components/Gorsel.tsx
+
 interface GorselProps {
     imageUrl: string;
     onClick: () => void;

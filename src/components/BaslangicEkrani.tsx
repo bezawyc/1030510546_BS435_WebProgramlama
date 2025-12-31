@@ -24,7 +24,7 @@ export const BaslangicEkrani = ({
                 tarafından üretilmiştir. Hangisi olduğunu bulmaya çalışın.
             </p>
 
-            {/* --- OYUN MODU SEÇİMLERİ --- */}
+            {/* OYUN MODU SEÇİMLERİ */}
             <div className="secim-alani">
                 <div className="secim-kutusu">
                     <label>Zorluk Seviyesi:</label>
@@ -45,7 +45,7 @@ export const BaslangicEkrani = ({
                     >
                         <option value="insan">İnsanlar</option>
                         <option value="manzara">Manzaralar</option>
-                        <option value="sanat">Sanat Eserleri</option>
+                        <option value="hayvan">Hayvanlar</option>
                     </select>
                 </div>
             </div>

@@ -1,3 +1,5 @@
+// src/components/SonucEkrani.tsx
+
 interface SonucEkraniProps {
     sonuc: 'kazandi' | 'kaybetti';
     onBasaDon: () => void;
